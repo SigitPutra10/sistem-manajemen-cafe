@@ -154,9 +154,10 @@
                         <i class="bi bi-cup-straw"></i>
                         <span>Manajemen Menu (Nabila)</span>
                     </a>
-                    <a href="#" class="nav-link-cafe disabled">
-                        <i class="bi bi-people"></i>
-                        <span>Akun Kasir (Husain)</span>
+                    <a href="{{ route('admin.users.index') }}"
+                        class="nav-link-cafe {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                         <i class="bi bi-people"></i>
+                         <span>Akun Kasir (Raffi)</span>
                     </a>
                     <a href="#" class="nav-link-cafe disabled">
                         <i class="bi bi-file-earmark-arrow-down"></i>
@@ -170,11 +171,11 @@
                 </a>
                 <a href="#" class="nav-link-cafe disabled">
                     <i class="bi bi-receipt"></i>
-                    <span>POS Transaksi (Raffi)</span>
+                    <span>POS Transaksi (Husain)</span>
                 </a>
                 <a href="#" class="nav-link-cafe disabled">
                     <i class="bi bi-clock-history"></i>
-                    <span>Antrean Pesanan (Raffi)</span>
+                    <span>Antrean Pesanan (Husain)</span>
                 </a>
             </div>
 

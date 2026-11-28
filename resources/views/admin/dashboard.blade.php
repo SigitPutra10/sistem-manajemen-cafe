@@ -67,6 +67,38 @@
     </div>
 </div>
 
+{{-- Grafik Transaksi 7 Hari Terakhir --}}
+<div class="card-cafe p-4 mb-4">
+    <div class="mb-3">
+        <h6 class="fw-bold text-dark mb-1">
+            Grafik Transaksi
+        </h6>
+        <p class="text-muted small mb-0">
+            Jumlah transaksi selesai selama 7 hari terakhir.
+        </p>
+    </div>
+
+    <div style="position: relative; height: 300px;">
+        <canvas id="transactionChart"></canvas>
+    </div>
+</div>
+
+{{-- Grafik Pendapatan 7 Hari Terakhir --}}
+<div class="card-cafe p-4 mb-4">
+    <div class="mb-3">
+        <h6 class="fw-bold text-dark mb-1">
+            Grafik Pendapatan
+        </h6>
+        <p class="text-muted small mb-0">
+            Total pendapatan transaksi selesai selama 7 hari terakhir.
+        </p>
+    </div>
+
+    <div style="position: relative; height: 300px;">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+
 <div class="card-cafe overflow-hidden">
     <div class="p-4 border-bottom bg-white d-flex justify-content-between align-items-center">
         <h6 class="fw-bold text-dark mb-0">Daftar Transaksi Terbaru CaféNusa</h6>
@@ -112,3 +144,101 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const chartLabels = @json($chartLabels);
+    const chartTransactions = @json($chartTransactions);
+
+    const ctx = document.getElementById('transactionChart');
+
+    new Chart(ctx, {
+        type: 'line',
+
+        data: {
+            labels: chartLabels,
+
+            datasets: [{
+                label: 'Jumlah Transaksi',
+                data: chartTransactions,
+
+                borderColor: '#198754',
+                backgroundColor: 'rgba(25, 135, 84, 0.12)',
+
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+
+                pointRadius: 5,
+                pointBackgroundColor: '#198754'
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+
+    const revenueLabels = @json($chartLabels);
+    const revenueData = @json($chartRevenue);
+
+    const revenueCtx = document.getElementById('revenueChart');
+
+    new Chart(revenueCtx, {
+        type: 'bar',
+
+        data: {
+            labels: revenueLabels,
+
+        datasets: [{
+            label: 'Pendapatan (Rp)',
+            data: revenueData,
+            backgroundColor: 'rgba(25, 135, 84, 0.7)',
+            borderColor: '#198754',
+            borderWidth: 1,
+            borderRadius: 6
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'Rp ' + value.toLocaleString('id-ID');
+                    }
+                }
+            }
+        },
+
+        plugins: {
+            legend: {
+                display: true
+            }
+        }
+    }
+});
+</script>
+@endpush
